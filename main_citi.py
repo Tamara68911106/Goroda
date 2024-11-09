@@ -10,8 +10,13 @@ def get_coordinates(city, key):
             lat = round(results[0]['geometry']['lat'],2)
             lon =  round(results[0]['geometry']['lng'],2)
             country = results[0]["components"]["country"]
-            region = results[0]["components"]["state"]
-            return f"Широта: {lat}, Долгота: {lon} Страна: {country} Регион: {region}"
+
+            if 'state' in results[0]['components']:
+                region = results[0]["components"]["state"]
+                return f"Широта: {lat}, Долгота: {lon}\n Страна: {country}.\n Регион: {region}"
+            else:
+                return f"Широта: {lat}, Долгота: {lon}\n Страна: {country}."
+
         else:
             return "Город не найден"
     except Exception as a:
@@ -29,7 +34,7 @@ key = '1ebc372879da43cd85408246fedd9ed1'
 
 window=Tk()
 window.title("Координаты городов")
-window.geometry("320x100")
+window.geometry("320x120")
 
 entry=Entry()
 entry.pack()
@@ -39,7 +44,7 @@ entry.bind("<Return>", show_coordinates)
 button = Button (text="Поиск координат", command=show_coordinates)
 button.pack()
 
-label = Label(text="Введите город и нажмите нп кнопку")
+label = Label(text="Введите город и нажмите на кнопку")
 label.pack()
 
 window.mainloop()
